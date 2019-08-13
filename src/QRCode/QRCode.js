@@ -2,6 +2,7 @@ import React from 'react';
 import QRCode from 'qrcode.react';
 import QrReader from 'react-qr-reader';
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera, faCopy } from '@fortawesome/free-solid-svg-icons';
 
@@ -28,6 +29,10 @@ class QRCodeApp extends React.PureComponent {
   render() {
     return (
       <div className="container">
+        <Helmet>
+          <title>QRCode Scanner/Reader - An App for that</title>
+        </Helmet>
+
         <h1>QRCode Scanner/Reader</h1>
         <Link to="/">Home</Link>
 
