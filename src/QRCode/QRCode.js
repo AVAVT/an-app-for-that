@@ -1,9 +1,13 @@
 import React from 'react';
 import QRCode from 'qrcode.react';
 import QrReader from 'react-qr-reader';
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera, faCopy } from '@fortawesome/free-solid-svg-icons';
 
-import { Form, FormGroup, Input, InputGroup, InputGroupAddon, Button, Modal, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
-class QRCode extends React.PureComponent {
+import { Form, FormGroup, InputGroup, InputGroupAddon, Button, Modal, ModalBody, ModalFooter, Row, Col } from 'reactstrap';
+
+class QRCodeApp extends React.PureComponent {
   state = {
     showQRScanner: false,
     qrCode: ''
@@ -12,7 +16,8 @@ class QRCode extends React.PureComponent {
   handleScan = data => {
     if (data) {
       this.setState({
-        qrCode: data
+        qrCode: data,
+        showQRScanner: false
       })
     }
   }
@@ -22,7 +27,44 @@ class QRCode extends React.PureComponent {
 
   render() {
     return (
-      <>
+      <div className="container">
+        <h1>QRCode Scanner/Reader</h1>
+        <Link to="/">Home</Link>
+
+        <Row className="mt-5">
+          <Col md="4 m-auto">
+            <Form>
+              <FormGroup>
+                <InputGroup>
+                  <InputGroupAddon addonType="prepend">
+                    <Button color="primary" title="Scan" onClick={() => this.setState({ showQRScanner: true })} >
+                      <FontAwesomeIcon icon={faCamera} />
+                    </Button>
+                  </InputGroupAddon>
+                  <input ref="qr-input" type="text" className="form-control" value={this.state.qrCode} onChange={(e) => this.setState({ qrCode: e.target.value })} />
+                  {
+                    this.state.qrCode && (
+                      <InputGroupAddon addonType="append">
+                        <Button
+                          title="Copy Code"
+                          color="primary"
+                          onClick={() => {
+                            this.refs['qr-input'].select();
+                            document.execCommand('copy');
+                            return false;
+                          }} >
+                          <FontAwesomeIcon icon={faCopy} />
+                        </Button>
+                      </InputGroupAddon>
+                    )
+                  }
+                </InputGroup>
+              </FormGroup>
+              <QRCode value={this.state.qrCode} size={256} />
+            </Form>
+          </Col>
+        </Row>
+
         <Modal isOpen={this.state.showQRScanner} toggle={() => this.setState({ showQRScanner: false })}>
           <ModalBody>
             <QrReader
@@ -36,25 +78,9 @@ class QRCode extends React.PureComponent {
             <Button color="primary" onClick={() => this.setState({ showQRScanner: false })}>Cancel</Button>
           </ModalFooter>
         </Modal>
-
-        <Row className="mt-5">
-          <Col md="4">
-            <Form>
-              <FormGroup>
-                <InputGroup>
-                  <Input type="text" className="form-control" value={this.state.qrCode} onChange={(e) => this.setState({ qrCode: e.target.value })} />
-                  <InputGroupAddon addonType="append">
-                    <Button color="primary" onClick={() => this.setState({ showQRScanner: true })} >Scan</Button>
-                  </InputGroupAddon>
-                </InputGroup>
-              </FormGroup>
-              <QRCode value={this.state.qrCode} size={256} />
-            </Form>
-          </Col>
-        </Row>
-      </>
+      </div>
     )
   }
 }
 
-export default QRCode;
+export default QRCodeApp;
