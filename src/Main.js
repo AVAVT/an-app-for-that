@@ -23,6 +23,9 @@ class Main extends React.PureComponent {
               <li>
                 <Link to="/foursome">Foursome Round-robin Tournament Scheduler</Link>
               </li>
+              <li>
+                <Link to="/seatwind">Mahjong Seat Wind Picker</Link>
+              </li>
             </ul>
           </Col>
         </Row>
