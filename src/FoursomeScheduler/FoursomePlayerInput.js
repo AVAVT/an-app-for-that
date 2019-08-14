@@ -8,7 +8,7 @@ import {
   FormGroup
 } from 'reactstrap';
 
-const playerCounts = [16/*, 20, 24, 28, 32*/];
+const playerCounts = [16, 20, 24, 28, 32];
 
 class FoursomePlayerInput extends React.PureComponent {
   state = {
