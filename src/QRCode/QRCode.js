@@ -30,10 +30,10 @@ class QRCodeApp extends React.PureComponent {
     return (
       <div className="container">
         <Helmet>
-          <title>QRCode Scanner/Reader - An App for that</title>
+          <title>QRCode Scanner/Creator - An App for that</title>
         </Helmet>
 
-        <h1>QRCode Scanner/Reader</h1>
+        <h1>QRCode Scanner/Creator</h1>
         <Link to="/">Home</Link>
 
         <Row className="mt-5">

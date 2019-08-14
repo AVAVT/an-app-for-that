@@ -18,7 +18,10 @@ class Main extends React.PureComponent {
           <Col>
             <ul>
               <li>
-                <Link to="/qrcode">QRCode Scanner/Reader</Link>
+                <Link to="/qrcode">QRCode Scanner/Creator</Link>
+              </li>
+              <li>
+                <Link to="/foursome">Foursome Round-robin Tournament Scheduler</Link>
               </li>
             </ul>
           </Col>
