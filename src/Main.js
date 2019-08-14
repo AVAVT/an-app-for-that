@@ -9,7 +9,7 @@ class Main extends React.PureComponent {
     return (
       <div className="container" >
         <Helmet>
-          <title>Home - An App for that</title>
+          <title>An App for that</title>
         </Helmet>
 
         <h1>An App for that</h1>

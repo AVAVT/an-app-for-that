@@ -9,7 +9,7 @@ class FoursomeTournamentView extends React.PureComponent {
     this.props.onScoreChanged(roundIndex, tableIndex, playerIndex, number);
   }
   renderRound = (roundData, index) => (
-    <Row key={index} className="mb-5">
+    <Row key={index} className="mb-5 round_container">
       <Col xs="12">
         <h3>Round {index + 1}</h3>
       </Col>
@@ -25,19 +25,18 @@ class FoursomeTournamentView extends React.PureComponent {
           <h4 className="table_view_header bg-primary text-white">Round {roundIndex + 1} - Table {tableIndex + 1}</h4>
           <div className="table_view_body mt-2">
             {tableData.players.map(({ id, matchScore }, playerIndex) => {
-              console.log(matchScore);
               return (
-                <div>
-                  <Label key={id} style={{ maxWidth: '100%', flex: '1 1 auto', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div key={id}>
+                  <Label style={{ maxWidth: '100%', flex: '1 1 auto', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     <Input
                       type="number"
-                      className="form-control d-inline-block"
+                      className="form-control d-inline-block mr-2"
                       defaultValue={matchScore || 0}
                       placeholder="Score"
                       style={{ width: 70 }}
                       onChange={this.composeInputHandler(roundIndex, tableIndex, playerIndex)}
                     />
-                    {` ${this.props.playerData[id].name}`}
+                    {this.props.playerData[id].name}
                   </Label>
                 </div>
               )
@@ -51,10 +50,10 @@ class FoursomeTournamentView extends React.PureComponent {
   render() {
     const sortedPlayers = [...this.props.playerData].sort((a, b) => (b.gameCount === 0 ? 0 : (b.score / b.gameCount)) - (a.gameCount === 0 ? 0 : (a.score / a.gameCount)));
     return (
-      <Row style={{ position: 'relative' }}>
-        <Col md="4" lg="3" style={{ borderRight: '1px solid #dedede' }}>
+      <Row className="tournament_view_container">
+        <Col id="player_ranking" md="4" lg="3">
           <h3>Player Ranking</h3>
-          <Table striped borderless>
+          <Table striped borderless responsive>
             <thead>
               <tr>
                 <th>#</th>
@@ -78,7 +77,7 @@ class FoursomeTournamentView extends React.PureComponent {
             </tbody>
           </Table>
         </Col>
-        <Col md="8" lg="9">
+        <Col id="tournament_games" md="8" lg="9">
           {this.props.matchData.map(this.renderRound)}
         </Col>
       </Row>

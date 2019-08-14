@@ -6,6 +6,8 @@ import { Button } from 'reactstrap';
 import { schedule } from './foursome';
 import FoursomePlayerInput from './FoursomePlayerInput';
 import FoursomeTournamentView from './FoursomeTournamentView';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPrint } from '@fortawesome/free-solid-svg-icons';
 
 class FoursomeScheduler extends React.PureComponent {
   state = {
@@ -90,7 +92,8 @@ class FoursomeScheduler extends React.PureComponent {
         </Helmet>
 
         <h1>Foursome Scheduler</h1>
-        <div className="d-flex justify-content-between">
+        <p className="text-muted d-print-none"><FontAwesomeIcon icon={faPrint} /> Printer-friendly on Chrome</p>
+        <div className="d-flex justify-content-between d-print-none">
           <Link to="/">Home</Link>
           {
             this.state.gameData &&

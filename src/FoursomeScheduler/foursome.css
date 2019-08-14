@@ -1,3 +1,11 @@
+.tournament_view_container{
+  position: relative;
+}
+
+.player_ranking {
+  border-right: 1px solid #dedede;
+}
+
 .table_view {
   border-radius: 4px;
   border: 1px solid #dedede;
@@ -12,4 +20,30 @@
 
 .table_view_body{
   padding: 5px 7px 0;
+}
+
+@media print {
+  .round_container {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .tournament_view_container {
+    display: block !important;
+  }
+
+  #player_ranking {
+    max-width: 100%;
+    page-break-after: always;
+    break-after: always;
+    border: 0 none;
+  }
+
+  #player_ranking tr{
+    border-bottom: 1px solid #ababab;
+  }
+
+  #tournament_games{
+    max-width: 100%;
+  }
 }
