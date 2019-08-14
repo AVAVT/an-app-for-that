@@ -64,13 +64,17 @@ class FoursomeScheduler extends React.PureComponent {
   playerDataFromMatchData = (playerData, matchData) => {
     const result = playerData.map(player => ({
       ...player,
-      score: 0
+      score: 0,
+      gameCount: 0
     }));
 
     for (let round of matchData) {
       for (let table of round.tables) {
+        const freeGame = table.players.some(player => !playerData[player.id].name)
+        if (freeGame) continue;
         for (let player of table.players) {
           result[player.id].score += player.matchScore
+          result[player.id].gameCount++;
         }
       }
     }

@@ -5,7 +5,8 @@ export const schedule = (players) => {
   const playerData = players.map((player, index) => ({
     id: index,
     name: player,
-    score: 0
+    score: 0,
+    gameCount: 0
   }));
   const shuffledPlayerIds = shuffle([...playerData.map(data => data.id)]);
   const preset = matchupPresets[players.length];

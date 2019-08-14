@@ -17,36 +17,39 @@ class FoursomeTournamentView extends React.PureComponent {
     </Row>
   )
 
-  renderTable = (tableData, tableIndex, roundIndex) => (
-    <Col sm="6" xl="3" key={tableIndex}>
-      <div key={tableIndex} className="table_view">
-        <h4 className="table_view_header bg-primary text-white">Round {roundIndex + 1} - Table {tableIndex + 1}</h4>
-        <div className="table_view_body mt-2">
-          {tableData.players.map(({ id, matchScore }, playerIndex) => {
-            console.log(matchScore);
-            return (
-              <div>
-                <Label key={id} style={{ maxWidth: '100%', flex: '1 1 auto', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  <Input
-                    type="number"
-                    className="form-control d-inline-block"
-                    defaultValue={matchScore || 0}
-                    placeholder="Score"
-                    style={{ width: 70 }}
-                    onChange={this.composeInputHandler(roundIndex, tableIndex, playerIndex)}
-                  />
-                  {` ${this.props.playerData[id].name}`}
-                </Label>
-              </div>
-            )
-          })}
+  renderTable = (tableData, tableIndex, roundIndex) => {
+    const freeGame = tableData.players.some(player => !this.props.playerData[player.id].name)
+    return (
+      <Col sm="6" xl="3" key={tableIndex}>
+        <div className="table_view" {...freeGame && { style: { opacity: 0.5 } }}>
+          <h4 className="table_view_header bg-primary text-white">Round {roundIndex + 1} - Table {tableIndex + 1}</h4>
+          <div className="table_view_body mt-2">
+            {tableData.players.map(({ id, matchScore }, playerIndex) => {
+              console.log(matchScore);
+              return (
+                <div>
+                  <Label key={id} style={{ maxWidth: '100%', flex: '1 1 auto', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <Input
+                      type="number"
+                      className="form-control d-inline-block"
+                      defaultValue={matchScore || 0}
+                      placeholder="Score"
+                      style={{ width: 70 }}
+                      onChange={this.composeInputHandler(roundIndex, tableIndex, playerIndex)}
+                    />
+                    {` ${this.props.playerData[id].name}`}
+                  </Label>
+                </div>
+              )
+            })}
+          </div>
         </div>
-      </div>
-    </Col>
-  )
+      </Col>
+    )
+  }
 
   render() {
-    const sortedPlayers = [...this.props.playerData].sort((a, b) => b.score - a.score);
+    const sortedPlayers = [...this.props.playerData].sort((a, b) => (b.gameCount === 0 ? 0 : (b.score / b.gameCount)) - (a.gameCount === 0 ? 0 : (a.score / a.gameCount)));
     return (
       <Row style={{ position: 'relative' }}>
         <Col md="4" lg="3" style={{ borderRight: '1px solid #dedede' }}>
@@ -57,16 +60,21 @@ class FoursomeTournamentView extends React.PureComponent {
                 <th>#</th>
                 <th>Name</th>
                 <th>Score</th>
+                <th>Games</th>
               </tr>
             </thead>
             <tbody>
-              {sortedPlayers.map((player, index) => (
-                <tr key={player.id}>
-                  <td>{index + 1}</td>
-                  <td>{player.name}</td>
-                  <td>{player.score}</td>
-                </tr>
-              ))}
+              {sortedPlayers.map((player, index) => player.gameCount > 0
+                ? (
+                  <tr key={player.id}>
+                    <td>{index + 1}</td>
+                    <td>{player.name}</td>
+                    <td>{player.score}</td>
+                    <td>{player.gameCount}</td>
+                  </tr>
+                )
+                : null
+              )}
             </tbody>
           </Table>
         </Col>
