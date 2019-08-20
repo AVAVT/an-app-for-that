@@ -2,7 +2,7 @@ import React from 'react';
 import { knuthShuffle as shuffle } from 'knuth-shuffle';
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { Button } from 'reactstrap';
+import { Button, Input } from 'reactstrap';
 
 import './seat-wind-picker.css';
 
@@ -12,16 +12,31 @@ const tiles = ['east', 'west', 'north', 'south'].map(name => ({
   name
 }));
 
+const sitout = {
+  turn: null,
+  open: false,
+  name: 'none'
+}
+
 class SeatWindPicker extends React.PureComponent {
   state = {
     nextTurn: 1,
+    sitoutCount: 0,
     tiles
   }
 
-  shuffleTiles = () => {
+  componentDidMount() {
+    this.shuffleTiles();
+  }
+
+  shuffleTiles = (e) => {
+    e && e.preventDefault();
+
+    const empties = Array.from({ length: this.state.sitoutCount }).map(() => sitout);
+
     this.setState({
       nextTurn: 1,
-      tiles: shuffle([...tiles])
+      tiles: shuffle([...tiles, ...empties])
     })
   }
 
@@ -77,7 +92,18 @@ class SeatWindPicker extends React.PureComponent {
               })
             }
           </p>
-          <Button color="primary" onClick={this.shuffleTiles}>Shuffle Tiles</Button>
+          <form onSubmit={this.shuffleTiles}>
+            <div className="d-flex justify-content-stretch m-auto" style={{ maxWidth: 500 }}>
+              <Input
+                type="number"
+                placeholder="Sit out"
+                defaultValue={this.state.sitoutCount}
+                className="mr-2"
+                onChange={(e) => this.setState({ sitoutCount: parseInt(e.target.value) || 0 })}
+              />
+              <Button color="primary" type="submit" style={{ whiteSpace: 'nowrap' }}>Shuffle Tiles</Button>
+            </div>
+          </form>
         </div>
       </div>
     )

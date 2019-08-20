@@ -26,6 +26,9 @@ class Main extends React.PureComponent {
               <li>
                 <Link to="/seatwind">Mahjong Seat Wind Picker</Link>
               </li>
+              <li>
+                <Link to="/random">Most Bestest Life Decisions Maker</Link>
+              </li>
             </ul>
           </Col>
         </Row>

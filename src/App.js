@@ -6,6 +6,7 @@ import Main from './Main';
 import QRCode from './QRCode/QRCode';
 import FoursomeScheduler from './FoursomeScheduler/FoursomeScheduler';
 import SeatWindPicker from './SeatWindPicker/SeatWindPicker';
+import MostBestestLifeDecisionMaker from './MostBestestLifeDecisionMaker/MostBestestLifeDecisionMaker';
 
 class App extends React.PureComponent {
 
@@ -17,6 +18,7 @@ class App extends React.PureComponent {
           <Route path="/qrcode" component={QRCode} />
           <Route path="/foursome" component={FoursomeScheduler} />
           <Route path="/seatwind" component={SeatWindPicker} />
+          <Route path="/random" component={MostBestestLifeDecisionMaker} />
         </div>
       </Router>
     );

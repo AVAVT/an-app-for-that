@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Button } from 'reactstrap';
 
-import { schedule } from './foursome';
+import { schedule, updatePlayerDataWithMatchData } from './foursome';
 import FoursomePlayerInput from './FoursomePlayerInput';
 import FoursomeTournamentView from './FoursomeTournamentView';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -54,7 +54,7 @@ class FoursomeScheduler extends React.PureComponent {
         }
     );
 
-    const playerData = this.playerDataFromMatchData(this.state.gameData.playerData, matchData);
+    const playerData = updatePlayerDataWithMatchData(this.state.gameData.playerData, matchData);
     this.setState({
       gameData: {
         playerData,
@@ -63,26 +63,7 @@ class FoursomeScheduler extends React.PureComponent {
     }, this.save);
   }
 
-  playerDataFromMatchData = (playerData, matchData) => {
-    const result = playerData.map(player => ({
-      ...player,
-      score: 0,
-      gameCount: 0
-    }));
 
-    for (let round of matchData) {
-      for (let table of round.tables) {
-        const freeGame = table.players.some(player => !playerData[player.id].name)
-        if (freeGame) continue;
-        for (let player of table.players) {
-          result[player.id].score += player.matchScore
-          result[player.id].gameCount++;
-        }
-      }
-    }
-
-    return result;
-  }
 
   render() {
     return (
