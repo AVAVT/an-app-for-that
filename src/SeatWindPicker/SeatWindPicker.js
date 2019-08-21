@@ -2,7 +2,7 @@ import React from 'react';
 import { knuthShuffle as shuffle } from 'knuth-shuffle';
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { Button, Input } from 'reactstrap';
+import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 
 import './seat-wind-picker.css';
 
@@ -94,13 +94,15 @@ class SeatWindPicker extends React.PureComponent {
           </p>
           <form onSubmit={this.shuffleTiles}>
             <div className="d-flex justify-content-stretch m-auto" style={{ maxWidth: 500 }}>
-              <Input
-                type="number"
-                placeholder="Sit out"
-                defaultValue={this.state.sitoutCount}
-                className="mr-2"
-                onChange={(e) => this.setState({ sitoutCount: parseInt(e.target.value) || 0 })}
-              />
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">Sit out</InputGroupAddon>
+                <Input
+                  type="number"
+                  defaultValue={this.state.sitoutCount}
+                  className="mr-2"
+                  onChange={(e) => this.setState({ sitoutCount: parseInt(e.target.value) || 0 })}
+                />
+              </InputGroup>
               <Button color="primary" type="submit" style={{ whiteSpace: 'nowrap' }}>Shuffle Tiles</Button>
             </div>
           </form>
