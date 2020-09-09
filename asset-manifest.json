@@ -1,21 +1,29 @@
 {
   "files": {
-    "main.css": "/an-app-for-that/static/css/main.b71d303d.chunk.css",
-    "main.js": "/an-app-for-that/static/js/main.fe38c31d.chunk.js",
-    "main.js.map": "/an-app-for-that/static/js/main.fe38c31d.chunk.js.map",
-    "runtime~main.js": "/an-app-for-that/static/js/runtime~main.62142d08.js",
-    "runtime~main.js.map": "/an-app-for-that/static/js/runtime~main.62142d08.js.map",
-    "static/css/2.266e55a5.chunk.css": "/an-app-for-that/static/css/2.266e55a5.chunk.css",
-    "static/js/2.9794c1a1.chunk.js": "/an-app-for-that/static/js/2.9794c1a1.chunk.js",
-    "static/js/2.9794c1a1.chunk.js.map": "/an-app-for-that/static/js/2.9794c1a1.chunk.js.map",
+    "main.css": "/an-app-for-that/static/css/main.ebbb3814.chunk.css",
+    "main.js": "/an-app-for-that/static/js/main.f67d14a6.chunk.js",
+    "main.js.map": "/an-app-for-that/static/js/main.f67d14a6.chunk.js.map",
+    "runtime-main.js": "/an-app-for-that/static/js/runtime-main.55a9b8eb.js",
+    "runtime-main.js.map": "/an-app-for-that/static/js/runtime-main.55a9b8eb.js.map",
+    "static/css/2.d9ad5f5c.chunk.css": "/an-app-for-that/static/css/2.d9ad5f5c.chunk.css",
+    "static/js/2.d0ee0640.chunk.js": "/an-app-for-that/static/js/2.d0ee0640.chunk.js",
+    "static/js/2.d0ee0640.chunk.js.map": "/an-app-for-that/static/js/2.d0ee0640.chunk.js.map",
     "index.html": "/an-app-for-that/index.html",
-    "precache-manifest.bdb254b2ae0acb11ba58c65760908e68.js": "/an-app-for-that/precache-manifest.bdb254b2ae0acb11ba58c65760908e68.js",
+    "precache-manifest.ccd40da90d4ce793a6c995fec853c2b9.js": "/an-app-for-that/precache-manifest.ccd40da90d4ce793a6c995fec853c2b9.js",
     "service-worker.js": "/an-app-for-that/service-worker.js",
-    "static/css/2.266e55a5.chunk.css.map": "/an-app-for-that/static/css/2.266e55a5.chunk.css.map",
-    "static/css/main.b71d303d.chunk.css.map": "/an-app-for-that/static/css/main.b71d303d.chunk.css.map",
+    "static/css/2.d9ad5f5c.chunk.css.map": "/an-app-for-that/static/css/2.d9ad5f5c.chunk.css.map",
+    "static/css/main.ebbb3814.chunk.css.map": "/an-app-for-that/static/css/main.ebbb3814.chunk.css.map",
+    "static/js/2.d0ee0640.chunk.js.LICENSE.txt": "/an-app-for-that/static/js/2.d0ee0640.chunk.js.LICENSE.txt",
     "static/media/wind-east.png": "/an-app-for-that/static/media/wind-east.63c4e5fd.png",
     "static/media/wind-north.png": "/an-app-for-that/static/media/wind-north.0298f8de.png",
     "static/media/wind-south.png": "/an-app-for-that/static/media/wind-south.4f3230e0.png",
     "static/media/wind-west.png": "/an-app-for-that/static/media/wind-west.ad5954ab.png"
-  }
+  },
+  "entrypoints": [
+    "static/js/runtime-main.55a9b8eb.js",
+    "static/css/2.d9ad5f5c.chunk.css",
+    "static/js/2.d0ee0640.chunk.js",
+    "static/css/main.ebbb3814.chunk.css",
+    "static/js/main.f67d14a6.chunk.js"
+  ]
 }
