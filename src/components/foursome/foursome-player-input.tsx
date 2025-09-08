@@ -7,21 +7,13 @@ export interface FoursomePlayerInputProps {
   onStart: (playerNames: string[]) => void;
 }
 
-export default function FoursomePlayerInput({
-  onStart,
-}: FoursomePlayerInputProps) {
+export default function FoursomePlayerInput({ onStart }: FoursomePlayerInputProps) {
   const [playerCount, setPlayerCount] = useState(16);
-  const [playerNames, setPlayerNames] = useState(
-    Array.from({ length: 16 }).map(() => ""),
-  );
+  const [playerNames, setPlayerNames] = useState(Array.from({ length: 16 }).map(() => ""));
 
   const composePlayerCountSetter = (number: number) => () => {
     setPlayerCount(number);
-    setPlayerNames(
-      Array.from({ length: number }).map(
-        (_, index) => playerNames[index] || "",
-      ),
-    );
+    setPlayerNames(Array.from({ length: number }).map((_, index) => playerNames[index] || ""));
   };
 
   const startGame = () => {
@@ -36,11 +28,7 @@ export default function FoursomePlayerInput({
           value={value}
           placeholder={`Name for player ${index + 1}...`}
           onChange={(e) =>
-            setPlayerNames(
-              playerNames.map((name, index2) =>
-                index === index2 ? e.target.value : name,
-              ),
-            )
+            setPlayerNames(playerNames.map((name, index2) => (index === index2 ? e.target.value : name)))
           }
         />
       </FormGroup>
@@ -65,8 +53,7 @@ export default function FoursomePlayerInput({
           </ButtonGroup>
           {(playerCount === 16 || playerCount === 28) && (
             <div className="text-muted">
-              Note: Perfect solution available (meaning each player can play
-              against all opponents).
+              Note: Perfect solution available (meaning each player can play against all opponents).
             </div>
           )}
         </Col>
@@ -74,10 +61,7 @@ export default function FoursomePlayerInput({
       <hr />
       <Row className="pb-5">
         <Col xs="12">
-          <p>
-            Enter player names. Leave field empty if there're not enough
-            players.
-          </p>
+          <p>Enter player names. Leave field empty if there're not enough players.</p>
         </Col>
 
         {playerNames.map(renderPlayerInput)}

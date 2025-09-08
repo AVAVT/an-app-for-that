@@ -5,34 +5,23 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type IDetectedBarcode, Scanner } from "@yudiel/react-qr-scanner";
 import Link from "next/link";
 import { QRCodeCanvas } from "qrcode.react";
-import { useRef, useState } from "react";
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  FormGroup,
-  InputGroup,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  Row,
-} from "reactstrap";
+import { useCallback, useRef, useState } from "react";
+import { Button, Col, Container, Form, FormGroup, InputGroup, Modal, ModalBody, ModalFooter, Row } from "reactstrap";
 
 export default function QrcodePage() {
   const [qrCode, setQrcode] = useState<string>("");
   const [showQRScanner, setShowQRScanner] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleScan = (detectedBarcodes: IDetectedBarcode[]) => {
+  const handleScan = useCallback((detectedBarcodes: IDetectedBarcode[]) => {
     for (const data of detectedBarcodes) {
-      if (data.format === "QR_CODE" && data.rawValue) {
+      if (data.rawValue) {
         setQrcode(data.rawValue);
         setShowQRScanner(false);
         break;
       }
     }
-  };
+  }, []);
 
   const handleError = (err: unknown) => {
     console.error(err);
@@ -48,11 +37,7 @@ export default function QrcodePage() {
           <Form>
             <FormGroup>
               <InputGroup>
-                <Button
-                  color="primary"
-                  title="Scan"
-                  onClick={() => setShowQRScanner(true)}
-                >
+                <Button color="primary" title="Scan" onClick={() => setShowQRScanner(true)}>
                   <FontAwesomeIcon icon={faCamera} />
                 </Button>
                 <input

@@ -1,4 +1,4 @@
-.tournament_view_container{
+.tournament_view_container {
   position: relative;
 }
 
@@ -13,12 +13,12 @@
   overflow: hidden;
 }
 
-.table_view_header{
+.table_view_header {
   padding: 5px 7px;
   margin-bottom: 0;
 }
 
-.table_view_body{
+.table_view_body {
   padding: 5px 7px 0;
 }
 
@@ -39,11 +39,11 @@
     border: 0 none;
   }
 
-  #player_ranking tr{
+  #player_ranking tr {
     border-bottom: 1px solid #ababab;
   }
 
-  #tournament_games{
+  #tournament_games {
     max-width: 100%;
   }
 }

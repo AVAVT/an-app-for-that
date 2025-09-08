@@ -5,12 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Container } from "reactstrap";
-import FoursomePlayerInput from "@/components/foursome/FoursomePlayerInput";
-import FoursomeTournamentView from "@/components/foursome/FoursomeTournamentView";
-import {
-  schedule,
-  updatePlayerDataWithMatchData,
-} from "@/components/foursome/foursome";
+import { schedule, updatePlayerDataWithMatchData } from "@/components/foursome/foursome";
+import FoursomePlayerInput from "@/components/foursome/foursome-player-input";
+import FoursomeTournamentView from "@/components/foursome/foursome-tournament-view";
 import type { GameData } from "@/components/foursome/types";
 
 export default function FoursomeSchedulerPage() {
@@ -18,9 +15,7 @@ export default function FoursomeSchedulerPage() {
 
   const loadSavedData = useCallback(() => {
     const savedData =
-      typeof window !== "undefined"
-        ? JSON.parse(localStorage.getItem("foursome-tournament") || "null")
-        : null;
+      typeof window !== "undefined" ? JSON.parse(localStorage.getItem("foursome-tournament") || "null") : null;
     if (savedData) return savedData;
     return null;
   }, []);
@@ -29,7 +24,7 @@ export default function FoursomeSchedulerPage() {
     localStorage.setItem("foursome-tournament", JSON.stringify(gameData));
   }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fire only once after first render
   useEffect(() => {
     setGameData(loadSavedData());
   }, []);
@@ -47,12 +42,7 @@ export default function FoursomeSchedulerPage() {
     setGameData(null);
   };
 
-  const setPlayerTableScore = (
-    roundIndex: number,
-    tableIndex: number,
-    playerIndex: number,
-    score: number,
-  ) => {
+  const setPlayerTableScore = (roundIndex: number, tableIndex: number, playerIndex: number, score: number) => {
     const matchData = gameData?.matchData.map((round, roundIndex2) =>
       roundIndex !== roundIndex2
         ? round
@@ -74,10 +64,7 @@ export default function FoursomeSchedulerPage() {
           },
     );
 
-    const playerData = updatePlayerDataWithMatchData(
-      gameData?.playerData || [],
-      matchData || [],
-    );
+    const playerData = updatePlayerDataWithMatchData(gameData?.playerData || [], matchData || []);
     setGameData({
       playerData,
       matchData: matchData || [],

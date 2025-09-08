@@ -4,13 +4,7 @@ import { knuthShuffle as shuffle } from "knuth-shuffle";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Container,
-  Input,
-  InputGroup,
-  InputGroupText,
-} from "reactstrap";
+import { Button, Container, Input, InputGroup, InputGroupText } from "reactstrap";
 import "./seat-wind-picker.css";
 import type { StaticImageData } from "next/image";
 import faceDown from "./images/face-down.png";
@@ -58,7 +52,7 @@ export default function SeatWindPickerPage() {
     setTiles(shuffle([...defaultTiles, ...empties]));
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: fire only once
   useEffect(() => {
     shuffleTiles();
   }, []);
@@ -88,19 +82,10 @@ export default function SeatWindPickerPage() {
         <div>
           {tiles.map((tile, index) => {
             return (
-              <div
-                key={`${tile.name}-${index}`}
-                className="d-inline-block mt-3"
-              >
+              <div key={`${tile.name}-${index}`} className="d-inline-block mt-3">
                 <p className="tw:font-bold">{tile.turn || "?"}</p>
                 {tile.open ? (
-                  <Image
-                    width={128}
-                    height={128}
-                    key={tile.name}
-                    alt={`tile-${tile.name}`}
-                    src={tile.img}
-                  />
+                  <Image width={128} height={128} key={tile.name} alt={`tile-${tile.name}`} src={tile.img} />
                 ) : (
                   <Image
                     width={128}
@@ -116,26 +101,17 @@ export default function SeatWindPickerPage() {
           })}
         </div>
         <form onSubmit={shuffleTiles} className="mt-5">
-          <div
-            className="d-flex justify-content-stretch m-auto"
-            style={{ maxWidth: 500 }}
-          >
+          <div className="d-flex justify-content-stretch m-auto" style={{ maxWidth: 500 }}>
             <InputGroup>
               <InputGroupText>Sit out</InputGroupText>
               <Input
                 type="number"
                 defaultValue={sitoutCount}
                 className="mr-2"
-                onChange={(e) =>
-                  setSitoutCount(parseInt(e.target.value, 10) || 0)
-                }
+                onChange={(e) => setSitoutCount(parseInt(e.target.value, 10) || 0)}
               />
             </InputGroup>
-            <Button
-              color="primary"
-              type="submit"
-              style={{ whiteSpace: "nowrap" }}
-            >
+            <Button color="primary" type="submit" style={{ whiteSpace: "nowrap" }}>
               Shuffle Tiles
             </Button>
           </div>

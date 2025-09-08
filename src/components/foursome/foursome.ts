@@ -8,9 +8,7 @@ export const schedule = (players: string[]): GameData | null => {
     id: index,
     name: player,
   }));
-  const shuffledPlayerIds = knuthShuffle([
-    ...playerData.map((data) => data.id),
-  ]);
+  const shuffledPlayerIds = knuthShuffle([...playerData.map((data) => data.id)]);
 
   const preset = matchupPresets[players.length as 16 | 20 | 24 | 28 | 32];
 
@@ -41,9 +39,7 @@ export const updatePlayerDataWithMatchData = (
 
   for (const round of matchData) {
     for (const table of round.tables) {
-      const freeGame = table.players.some(
-        (player) => !playerData[player.id].name,
-      );
+      const freeGame = table.players.some((player) => !playerData[player.id].name);
       if (freeGame) continue;
       for (const player of table.players) {
         result[player.id].score += player.matchScore || 0;

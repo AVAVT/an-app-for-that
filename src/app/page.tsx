@@ -14,9 +14,7 @@ export default function Home() {
           <Link href="./pair">Team Pair Matching</Link>
         </li>
         <li>
-          <Link href="./foursome">
-            Foursome Round-robin Tournament Scheduler
-          </Link>
+          <Link href="./foursome">Foursome Round-robin Tournament Scheduler</Link>
         </li>
         <li>
           <Link href="./qrcode">QRCode Scanner/Creator</Link>

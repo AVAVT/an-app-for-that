@@ -5,22 +5,12 @@ import type { Player, Round, Table } from "./types";
 export interface FoursomeTournamentViewProps {
   playerData: Player[];
   matchData: Round[];
-  onScoreChanged: (
-    roundIndex: number,
-    tableIndex: number,
-    playerIndex: number,
-    number: number,
-  ) => void;
+  onScoreChanged: (roundIndex: number, tableIndex: number, playerIndex: number, number: number) => void;
 }
 
-export default function FoursomeTournamentView({
-  playerData,
-  matchData,
-  onScoreChanged,
-}: FoursomeTournamentViewProps) {
+export default function FoursomeTournamentView({ playerData, matchData, onScoreChanged }: FoursomeTournamentViewProps) {
   const composeInputHandler =
-    (roundIndex: number, tableIndex: number, playerIndex: number) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (roundIndex: number, tableIndex: number, playerIndex: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
       const number = Number(e.target.value);
       onScoreChanged(roundIndex, tableIndex, playerIndex, number);
     };
@@ -30,26 +20,15 @@ export default function FoursomeTournamentView({
       <Col xs="12">
         <h3>Round {index + 1}</h3>
       </Col>
-      {roundData.tables.map((tableData, tableIndex) =>
-        renderTable(tableData, tableIndex, index),
-      )}
+      {roundData.tables.map((tableData, tableIndex) => renderTable(tableData, tableIndex, index))}
     </Row>
   );
 
-  const renderTable = (
-    tableData: Table,
-    tableIndex: number,
-    roundIndex: number,
-  ) => {
-    const freeGame = tableData.players.some(
-      (player) => !playerData[player.id].name,
-    );
+  const renderTable = (tableData: Table, tableIndex: number, roundIndex: number) => {
+    const freeGame = tableData.players.some((player) => !playerData[player.id].name);
     return (
       <Col sm="6" xl="3" key={tableIndex}>
-        <div
-          className="table_view"
-          {...(freeGame && { style: { opacity: 0.5 } })}
-        >
+        <div className="table_view" {...(freeGame && { style: { opacity: 0.5 } })}>
           <h4 className="table_view_header bg-primary text-white">
             Round {roundIndex + 1} - Table {tableIndex + 1}
           </h4>
@@ -72,11 +51,7 @@ export default function FoursomeTournamentView({
                       defaultValue={matchScore || 0}
                       placeholder="Score"
                       style={{ width: 70 }}
-                      onChange={composeInputHandler(
-                        roundIndex,
-                        tableIndex,
-                        playerIndex,
-                      )}
+                      onChange={composeInputHandler(roundIndex, tableIndex, playerIndex)}
                     />
                     {playerData[id].name}
                   </Label>
@@ -90,9 +65,7 @@ export default function FoursomeTournamentView({
   };
 
   const sortedPlayers = [...playerData].sort(
-    (a, b) =>
-      (b.gameCount === 0 ? 0 : b.score / b.gameCount) -
-      (a.gameCount === 0 ? 0 : a.score / a.gameCount),
+    (a, b) => (b.gameCount === 0 ? 0 : b.score / b.gameCount) - (a.gameCount === 0 ? 0 : a.score / a.gameCount),
   );
 
   return (
