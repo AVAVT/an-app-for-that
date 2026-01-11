@@ -1,0 +1,6 @@
+1:"$Sreact.fragment"
+2:I[22016,["/an-app-for-that/_next/static/chunks/796e69ae18b2784c.js"],""]
+3:I[97367,["/an-app-for-that/_next/static/chunks/ff1a16fafef87110.js","/an-app-for-that/_next/static/chunks/7340adf74ff47ec0.js"],"OutletBoundary"]
+4:"$Sreact.suspense"
+0:{"buildId":"K1g5XZoG6W9Curhtmo-DJ","rsc":["$","$1","c",{"children":[["$","div",null,{"children":[["$","h1",null,{"children":"An App for that"}],["$","ul",null,{"children":[["$","li",null,{"children":["$","$L2",null,{"href":"./seatwind","children":"Mahjong Seat Wind Picker"}]}],["$","li",null,{"children":["$","$L2",null,{"href":"./pair","children":"Team Pair Matching"}]}],["$","li",null,{"children":["$","$L2",null,{"href":"./foursome","children":"Foursome Round-robin Tournament Scheduler"}]}],["$","li",null,{"children":["$","$L2",null,{"href":"./qrcode","children":"QRCode Scanner/Creator"}]}],["$","li",null,{"children":["$","$L2",null,{"href":"./random","children":"Most Bestest Life Decisions Maker"}]}]]}]],"className":"container-md"}],[["$","script","script-0",{"src":"/an-app-for-that/_next/static/chunks/796e69ae18b2784c.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+5:null
