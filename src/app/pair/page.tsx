@@ -15,10 +15,20 @@ export default function FoursomeSchedulerPage() {
 
   const pairPlayers = () => {
     const shuffledPlayerNames = shuffle([...playerNames]);
+
     setPairedPlayers([
-      [shuffledPlayerNames[0], shuffledPlayerNames[1], shuffledPlayerNames[2], shuffledPlayerNames[3]],
-      [shuffledPlayerNames[0], shuffledPlayerNames[2], shuffledPlayerNames[3], shuffledPlayerNames[1]],
-      [shuffledPlayerNames[3], shuffledPlayerNames[0], shuffledPlayerNames[1], shuffledPlayerNames[2]],
+      shuffle([
+        [...shuffle([shuffledPlayerNames[0], shuffledPlayerNames[1]])],
+        [...shuffle([shuffledPlayerNames[2], shuffledPlayerNames[3]])],
+      ]).flat(),
+      shuffle([
+        [...shuffle([shuffledPlayerNames[0], shuffledPlayerNames[2]])],
+        [...shuffle([shuffledPlayerNames[3], shuffledPlayerNames[1]])],
+      ]).flat(),
+      shuffle([
+        [...shuffle([shuffledPlayerNames[0], shuffledPlayerNames[3]])],
+        [...shuffle([shuffledPlayerNames[2], shuffledPlayerNames[1]])],
+      ]).flat(),
     ]);
   };
 
@@ -48,11 +58,16 @@ export default function FoursomeSchedulerPage() {
           </Button>
         </div>
       </section>
+
       {pairedPlayers?.map((match, index) => (
         <div key={index} className="mt-5">
           <h3>Match {index + 1}</h3>
           <div className="px-4">
-            <span className="tw:font-bold px-1">{match[0]}</span>+<span className="tw:font-bold px-1">{match[1]}</span>
+            <span className="tw:font-bold px-1">
+              {match[0]}
+              <span className="tw:text-red-500">*</span>
+            </span>
+            +<span className="tw:font-bold px-1">{match[1]}</span>
           </div>
           <div className="px-4">vs</div>
           <div className="px-4">
@@ -60,6 +75,11 @@ export default function FoursomeSchedulerPage() {
           </div>
         </div>
       ))}
+      {pairedPlayers && (
+        <div className="mt-2">
+          (<span className="tw:text-red-500">*</span>) is server
+        </div>
+      )}
     </Container>
   );
 }
