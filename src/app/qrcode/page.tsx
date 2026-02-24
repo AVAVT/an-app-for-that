@@ -6,7 +6,7 @@ import { type IDetectedBarcode, Scanner } from "@yudiel/react-qr-scanner";
 import Link from "next/link";
 import { QRCodeCanvas } from "qrcode.react";
 import { useCallback, useRef, useState } from "react";
-import { Button, Col, Container, Form, FormGroup, InputGroup, Modal, ModalBody, ModalFooter, Row } from "reactstrap";
+import { Button, cn, Input, Modal } from "vat-ui";
 
 export default function QrcodePage() {
   const [qrCode, setQrcode] = useState<string>("");
@@ -28,55 +28,52 @@ export default function QrcodePage() {
   };
 
   return (
-    <Container fluid="md">
+    <article className="container-space">
       <h1>QRCode Scanner/Creator</h1>
       <Link href="/">Home</Link>
 
-      <Row className="mt-5">
-        <Col md="4 m-auto">
-          <Form>
-            <FormGroup>
-              <InputGroup>
-                <Button color="primary" title="Scan" onClick={() => setShowQRScanner(true)}>
-                  <FontAwesomeIcon icon={faCamera} />
-                </Button>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  className="form-control"
-                  value={qrCode}
-                  onChange={(e) => setQrcode(e.target.value)}
-                />
-                {qrCode && (
-                  <Button
-                    title="Copy Code"
-                    color="secondary"
-                    onClick={() => {
-                      inputRef.current?.select();
-                      document.execCommand("copy");
-                      return false;
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faCopy} />
-                  </Button>
-                )}
-              </InputGroup>
-            </FormGroup>
-            <QRCodeCanvas value={qrCode} size={256} />
-          </Form>
-        </Col>
-      </Row>
-
-      <Modal isOpen={showQRScanner} toggle={() => setShowQRScanner(false)}>
-        <ModalBody>
-          <Scanner onError={handleError} onScan={handleScan} />
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={() => setShowQRScanner(false)}>
-            Cancel
+      <div className="mt-5 flex flex-col items-center gap-4">
+        <div className="flex items-stretch">
+          <Button
+            variant="solid"
+            color="primary"
+            className="relative rounded-r-none z-1"
+            title="Scan"
+            onClick={() => setShowQRScanner(true)}
+          >
+            <FontAwesomeIcon icon={faCamera} />
           </Button>
-        </ModalFooter>
+          <Input
+            ref={inputRef}
+            type="text"
+            color="primary"
+            className={cn("rounded-l-none border-l-0 w-[30rem]", qrCode ? "rounded-r-none border-r-0" : "")}
+            value={qrCode}
+            onChange={(e) => setQrcode(e.target.value)}
+          />
+          {qrCode && (
+            <Button
+              title="Copy Code"
+              variant="outline"
+              color="primary"
+              className="relative rounded-l-none z-1"
+              onClick={() => {
+                inputRef.current?.select();
+                document.execCommand("copy");
+                return false;
+              }}
+            >
+              <FontAwesomeIcon icon={faCopy} />
+            </Button>
+          )}
+        </div>
+
+        <QRCodeCanvas value={qrCode} size={256} />
+      </div>
+
+      <Modal show={showQRScanner} onClose={() => setShowQRScanner(false)} hasCloseButton clickOutsideToClose>
+        <Scanner onError={handleError} onScan={handleScan} />
       </Modal>
-    </Container>
+    </article>
   );
 }

@@ -1,12 +1,13 @@
 "use client";
 
+import "./seat-wind-picker.css";
+
 import { knuthShuffle as shuffle } from "knuth-shuffle";
+import type { StaticImageData } from "next/image";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Button, Container, Input, InputGroup, InputGroupText } from "reactstrap";
-import "./seat-wind-picker.css";
-import type { StaticImageData } from "next/image";
+import { SubmitEventHandler, useEffect, useState } from "react";
+import { Button, Input } from "vat-ui";
 import faceDown from "./images/face-down.png";
 import east from "./images/wind-east.png";
 import none from "./images/wind-none.png";
@@ -43,13 +44,16 @@ export default function SeatWindPickerPage() {
   const [sitoutCount, setSitoutCount] = useState(0);
   const [tiles, setTiles] = useState(defaultTiles);
 
-  const shuffleTiles = (e?: React.FormEvent<HTMLFormElement>) => {
-    e?.preventDefault();
-
+  const shuffleTiles = () => {
     const empties = Array.from({ length: sitoutCount }).map(() => sitout);
 
     setNextTurn(1);
     setTiles(shuffle([...defaultTiles, ...empties]));
+  };
+
+  const formHandler: SubmitEventHandler = (e) => {
+    e.preventDefault();
+    shuffleTiles();
   };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: fire only once
@@ -73,7 +77,7 @@ export default function SeatWindPickerPage() {
   };
 
   return (
-    <Container fluid="md">
+    <article className="container-space">
       <h1>Seat Wind Picker</h1>
       <Link href="/">Home</Link>
 
@@ -82,8 +86,8 @@ export default function SeatWindPickerPage() {
         <div>
           {tiles.map((tile, index) => {
             return (
-              <div key={`${tile.name}-${index}`} className="d-inline-block mt-3">
-                <p className="tw:font-bold">{tile.turn || "?"}</p>
+              <div key={`${tile.name}-${index}`} className="inline-block mt-3">
+                <p className="font-bold">{tile.turn || "?"}</p>
                 {tile.open ? (
                   <Image width={128} height={128} key={tile.name} alt={`tile-${tile.name}`} src={tile.img} />
                 ) : (
@@ -100,36 +104,35 @@ export default function SeatWindPickerPage() {
             );
           })}
         </div>
-        <form onSubmit={shuffleTiles} className="mt-5">
-          <div className="d-flex justify-content-stretch m-auto" style={{ maxWidth: 500 }}>
-            <InputGroup>
-              <InputGroupText>Sit out</InputGroupText>
-              <Input
-                type="number"
-                defaultValue={sitoutCount}
-                className="mr-2"
-                onChange={(e) => setSitoutCount(parseInt(e.target.value, 10) || 0)}
-              />
-            </InputGroup>
-            <Button color="primary" type="submit" style={{ whiteSpace: "nowrap" }}>
+        <form onSubmit={formHandler} className="mt-5">
+          <div className="flex gap-4 justify-stretch items-baseline m-auto max-w-[500px]">
+            <span className="flex-none">Sit out</span>
+            <Input
+              type="number"
+              color="foreground"
+              defaultValue={sitoutCount}
+              className="mr-2 flex-1"
+              onChange={(e) => setSitoutCount(parseInt(e.target.value, 10) || 0)}
+            />
+            <Button color="primary" variant="outline" type="submit">
               Shuffle Tiles
             </Button>
           </div>
         </form>
       </div>
-      <div className="tw:w-0 tw:h-0 tw:overflow-hidden">
+      <div className="w-0 h-0 overflow-hidden">
         {defaultTiles.map((tile) => (
           <Image
             width={128}
             height={128}
             key={tile.name}
             alt={`tile-${tile.name}`}
-            className="tw:opacity-0"
+            className="opacity-0"
             priority
             src={tile.img}
           />
         ))}
       </div>
-    </Container>
+    </article>
   );
 }

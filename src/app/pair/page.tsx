@@ -3,7 +3,7 @@
 import { knuthShuffle as shuffle } from "knuth-shuffle";
 import Link from "next/link";
 import { useState } from "react";
-import { Button, Container, FormGroup, Input } from "reactstrap";
+import { Button, Input } from "vat-ui";
 
 export default function FoursomeSchedulerPage() {
   const [playerNames, setPlayerNames] = useState<string[]>(["", "", "", ""]);
@@ -33,27 +33,26 @@ export default function FoursomeSchedulerPage() {
   };
 
   return (
-    <Container fluid="md">
+    <article className="container-space">
       <h1>Team Pair Matching</h1>
       <Link href="/">Home</Link>
-      <section className="mt-5">
+      <section className="mt-5 flex flex-col gap-4">
         {playerNames.map((value, index) => (
-          <FormGroup key={index}>
-            <Input
-              className="form-control"
-              value={value}
-              placeholder={`Name for player ${index + 1}...`}
-              onChange={(e) =>
-                setPlayerNames(playerNames.map((name, index2) => (index === index2 ? e.target.value : name)))
-              }
-            />
-          </FormGroup>
+          <Input
+            key={index}
+            className="form-control"
+            value={value}
+            placeholder={`Name for player ${index + 1}...`}
+            onChange={(e) =>
+              setPlayerNames(playerNames.map((name, index2) => (index === index2 ? e.target.value : name)))
+            }
+          />
         ))}
-        <div className="tw:flex tw:gap-2">
+        <div className="flex gap-2">
           <Button color="primary" onClick={pairPlayers}>
             Pair Players
           </Button>
-          <Button color="secondary" onClick={templatePingPong}>
+          <Button color="primary" variant="outline" onClick={templatePingPong}>
             Template Ping Pong
           </Button>
         </div>
@@ -63,23 +62,23 @@ export default function FoursomeSchedulerPage() {
         <div key={index} className="mt-5">
           <h3>Match {index + 1}</h3>
           <div className="px-4">
-            <span className="tw:font-bold px-1">
+            <span className="font-bold px-1">
               {match[0]}
-              <span className="tw:text-red-500">*</span>
+              <span className="text-red-500">*</span>
             </span>
-            +<span className="tw:font-bold px-1">{match[1]}</span>
+            +<span className="font-bold px-1">{match[1]}</span>
           </div>
           <div className="px-4">vs</div>
           <div className="px-4">
-            <span className="tw:font-bold px-1">{match[2]}</span>+<span className="tw:font-bold px-1">{match[3]}</span>
+            <span className="font-bold px-1">{match[2]}</span>+<span className="font-bold px-1">{match[3]}</span>
           </div>
         </div>
       ))}
       {pairedPlayers && (
         <div className="mt-2">
-          (<span className="tw:text-red-500">*</span>) is server
+          (<span className="text-red-500">*</span>) is server
         </div>
       )}
-    </Container>
+    </article>
   );
 }

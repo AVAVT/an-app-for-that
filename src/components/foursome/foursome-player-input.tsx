@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, ButtonGroup, Col, FormGroup, Input, Row } from "reactstrap";
+import { Button, cn, Input } from "vat-ui";
 
 const playerCounts = [16, 20, 24, 28, 32];
 
@@ -21,57 +21,49 @@ export default function FoursomePlayerInput({ onStart }: FoursomePlayerInputProp
   };
 
   const renderPlayerInput = (value: string, index: number) => (
-    <Col sm="6" md="4" lg="3" key={index}>
-      <FormGroup>
-        <Input
-          className="form-control"
-          value={value}
-          placeholder={`Name for player ${index + 1}...`}
-          onChange={(e) =>
-            setPlayerNames(playerNames.map((name, index2) => (index === index2 ? e.target.value : name)))
-          }
-        />
-      </FormGroup>
-    </Col>
+    <div key={index}>
+      <Input
+        className="form-control"
+        value={value}
+        placeholder={`Name for player ${index + 1}...`}
+        onChange={(e) => setPlayerNames(playerNames.map((name, index2) => (index === index2 ? e.target.value : name)))}
+      />
+    </div>
   );
 
   return (
-    <>
-      <Row className="mt-5 mb-3">
-        <Col xs="12">
-          <div>Number of players:</div>
-          <ButtonGroup className="mb-3">
-            {playerCounts.map((count) => (
-              <Button
-                key={count}
-                color={playerCount === count ? "primary" : "secondary"}
-                onClick={composePlayerCountSetter(count)}
-              >
-                {count}
-              </Button>
-            ))}
-          </ButtonGroup>
-          {(playerCount === 16 || playerCount === 28) && (
-            <div className="text-muted">
-              Note: Perfect solution available (meaning each player can play against all opponents).
-            </div>
-          )}
-        </Col>
-      </Row>
+    <div className="flex flex-col gap-4">
+      <div className="mt-5 mb-3">
+        <div>Number of players:</div>
+        {playerCounts.map((count, index) => (
+          <Button
+            key={count}
+            color={playerCount === count ? "primary" : "secondary"}
+            variant="outline"
+            className={cn(index > 0 ? "rounded-l-none" : "", index < playerCounts.length - 1 ? "rounded-r-none" : "")}
+            onClick={composePlayerCountSetter(count)}
+          >
+            {count}
+          </Button>
+        ))}
+        {(playerCount === 16 || playerCount === 28) && (
+          <div className="text-muted">
+            Note: Perfect solution available (meaning each player can play against all opponents).
+          </div>
+        )}
+      </div>
       <hr />
-      <Row className="pb-5">
-        <Col xs="12">
-          <p>Enter player names. Leave field empty if there're not enough players.</p>
-        </Col>
+      <div className="pb-5 flex flex-col gap-2">
+        <p>Enter player names. Leave field empty if there're not enough players.</p>
 
         {playerNames.map(renderPlayerInput)}
 
-        <Col xs="12" className="mt-2">
+        <div className="mt-2">
           <Button color="primary" onClick={startGame}>
             Start
           </Button>
-        </Col>
-      </Row>
-    </>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -2,108 +2,103 @@
 
 import { knuthShuffle as shuffle } from "knuth-shuffle";
 import Link from "next/link";
-import { type ChangeEventHandler, type FormEventHandler, useState } from "react";
-import { Button, Col, Container, Form, Input, Label, Row } from "reactstrap";
+import { SubmitEventHandler, useState } from "react";
+import { Button, Input } from "vat-ui";
 import { randomInt } from "@/utilities/functions";
 
 export default function RandomPage() {
-  const [state, setState] = useState({
-    randomFrom: 1,
-    randomTo: 4,
-    drawAmount: 3,
-    drawBank: 8,
-    randomNumResult: 0,
-    drawResult: "",
-  });
+  const [randomFrom, setRandomFrom] = useState(1);
+  const [randomTo, setRandomTo] = useState(6);
+  const [drawAmount, setDrawAmount] = useState(3);
+  const [drawBank, setDrawBank] = useState(8);
+  const [randomResult, setRandomResult] = useState<null | number>(null);
+  const [drawResult, setDrawResult] = useState<null | string>(null);
 
-  const onFieldChanged: ChangeEventHandler<HTMLInputElement> = (event) =>
-    setState({
-      ...state,
-      [event.target.name]: parseInt(event.target.value, 10) || 0,
-    });
-
-  const randomNum: FormEventHandler<HTMLFormElement> = (e) => {
+  const randomNum: SubmitEventHandler = (e) => {
     e.preventDefault();
-    setState({
-      ...state,
-      randomNumResult: randomInt(state.randomFrom, state.randomTo + 1),
-    });
+    if (randomTo < randomFrom) return;
+
+    setRandomResult(randomInt(randomFrom, randomTo + 1));
   };
 
-  const randomDraw: FormEventHandler<HTMLFormElement> = (e) => {
+  const randomDraw: SubmitEventHandler = (e) => {
     e.preventDefault();
-    setState({
-      ...state,
-      drawResult: shuffle(Array.from({ length: state.drawBank }).map((_, index) => index + 1))
-        .slice(0, state.drawAmount)
+
+    if (drawBank < drawAmount) return;
+
+    setDrawResult(
+      shuffle(Array.from({ length: drawBank }).map((_, index) => index + 1))
+        .slice(0, drawAmount)
         .join(", "),
-    });
+    );
   };
 
   return (
-    <Container fluid="md">
+    <article className="container-space">
       <h1>Most Bestest Life Decisions Maker</h1>
       <Link href="/">Home</Link>
 
-      <Row className="mt-5">
-        <Col md="8 m-auto">
-          <Form onSubmit={randomNum}>
-            <Row>
-              <Label for="randomFrom" className="col-form-label pl-3">
-                Random from
-              </Label>
-              <Col sm="2">
-                <Input type="number" name="randomFrom" defaultValue={state.randomFrom} onChange={onFieldChanged} />
-              </Col>
-              <Col sm="2">
-                <Label for="randomTo" className="col-form-label text-center">
-                  to
-                </Label>
-              </Col>
-              <Col sm="2">
-                <Input type="number" name="randomTo" defaultValue={state.randomTo} onChange={onFieldChanged} />
-              </Col>
-              <Col sm="2">
-                <Button className="btn-block" type="submit" color="primary">
-                  Go!
-                </Button>
-              </Col>
-              <Label className="pl-3 col-form-label">
-                <strong>{state.randomNumResult > 0 ? state.randomNumResult : ""}</strong>
-              </Label>
-            </Row>
-          </Form>
+      <div className="mt-5">
+        <form onSubmit={randomNum}>
+          <div className="flex gap-4 items-baseline">
+            <label htmlFor="randomFrom" className="col-form-label pl-3">
+              Random from
+            </label>
+            <Input
+              type="number"
+              name="randomFrom"
+              defaultValue={randomFrom}
+              onChange={(e) => setRandomFrom(Number(e.target.value || 0))}
+              className="w-auto"
+            />
+            <label htmlFor="randomTo" className="col-form-label text-center">
+              to
+            </label>
+            <Input
+              type="number"
+              name="randomTo"
+              defaultValue={randomTo}
+              onChange={(e) => setRandomTo(Number(e.target.value || 0))}
+              className="w-auto"
+            />
+            <Button className="btn-block" type="submit" variant="outline">
+              Go!
+            </Button>
+            <strong>{randomResult}</strong>
+          </div>
+        </form>
 
-          <hr />
+        <hr className="my-4" />
 
-          <Form onSubmit={randomDraw}>
-            <Row>
-              <Label for="drawAmount" className="col-form-label pl-3">
-                Draw
-              </Label>
-              <Col sm="2">
-                <Input type="number" name="drawAmount" defaultValue={state.drawAmount} onChange={onFieldChanged} />
-              </Col>
-              <Col sm="2">
-                <Label for="drawBank" className="col-form-label text-center">
-                  cards from
-                </Label>
-              </Col>
-              <Col sm="2">
-                <Input type="number" name="drawBank" defaultValue={state.drawBank} onChange={onFieldChanged} />
-              </Col>
-              <Col sm="2">
-                <Button className="btn-block" type="submit" color="primary">
-                  Go!
-                </Button>
-              </Col>
-              <Label className="pl-3 col-form-label">
-                <strong>{state.drawResult}</strong>
-              </Label>
-            </Row>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+        <form onSubmit={randomDraw}>
+          <div className="flex gap-4 items-baseline">
+            <label htmlFor="drawAmount" className="col-form-label pl-3">
+              Draw
+            </label>
+            <Input
+              type="number"
+              name="drawAmount"
+              className="w-auto"
+              defaultValue={drawAmount}
+              onChange={(e) => setDrawAmount(Number(e.target.value || 0))}
+            />
+            <label htmlFor="drawBank" className="col-form-label text-center">
+              cards from
+            </label>
+            <Input
+              type="number"
+              name="drawBank"
+              className="w-auto"
+              defaultValue={drawBank}
+              onChange={(e) => setDrawBank(Number(e.target.value || 0))}
+            />
+            <Button className="btn-block" type="submit" color="primary" variant="outline">
+              Go!
+            </Button>
+            <strong>{drawResult}</strong>
+          </div>
+        </form>
+      </div>
+    </article>
   );
 }

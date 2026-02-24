@@ -4,7 +4,7 @@ import { faPrint } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { Button, Container } from "reactstrap";
+import { Button } from "vat-ui";
 import { schedule, updatePlayerDataWithMatchData } from "@/components/foursome/foursome";
 import FoursomePlayerInput from "@/components/foursome/foursome-player-input";
 import FoursomeTournamentView from "@/components/foursome/foursome-tournament-view";
@@ -72,19 +72,20 @@ export default function FoursomeSchedulerPage() {
   };
 
   return (
-    <Container fluid>
+    <article className="container-space">
       <h1>Foursome Scheduler</h1>
       <p className="text-muted d-print-none">
         <FontAwesomeIcon icon={faPrint} /> Printer-friendly on Chrome
       </p>
       <div className="d-flex justify-content-between d-print-none">
         <Link href="/">Home</Link>
-        {gameData && (
-          <Button color="outline-danger" onClick={resetGame}>
-            New Tournament
-          </Button>
-        )}
       </div>
+
+      {gameData && (
+        <Button variant="outline" color="tertiary" className="mt-4" onClick={resetGame}>
+          New Tournament
+        </Button>
+      )}
       {gameData ? (
         <FoursomeTournamentView
           matchData={gameData.matchData}
@@ -94,6 +95,6 @@ export default function FoursomeSchedulerPage() {
       ) : (
         <FoursomePlayerInput onStart={startGame} />
       )}
-    </Container>
+    </article>
   );
 }

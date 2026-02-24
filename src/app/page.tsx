@@ -1,12 +1,11 @@
 import Link from "next/link";
-import { Container } from "reactstrap";
 
 export default function Home() {
   return (
-    <Container fluid="md">
-      <h1>An App for that</h1>
+    <article className="container-space py-10">
+      <h1 className="mb-6">An App for that</h1>
 
-      <ul>
+      <ul className="flex flex-col gap-2 text-lg">
         <li>
           <Link href="./seatwind">Mahjong Seat Wind Picker</Link>
         </li>
@@ -23,6 +22,6 @@ export default function Home() {
           <Link href="./random">Most Bestest Life Decisions Maker</Link>
         </li>
       </ul>
-    </Container>
+    </article>
   );
 }

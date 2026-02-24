@@ -1,12 +1,18 @@
-@import "bootstrap/dist/css/bootstrap.min.css";
-@import "tailwindcss" prefix(tw);
+@import "tailwindcss";
+@source "../../node_modules/vat-ui";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: oklch(0.6534 0.1395 264.05); /* #648de5 */
+  --secondary: oklch(0.7665 0.1512 167.19); /* #21d19f */
+  --tertiary: oklch(0.4814 0.0991 339.45); /* #824670 */
+  --foreground: oklch(1 0 0); /* #ffffff */
+  --background: oklch(0.2046 0 0); /* #171717 */
 }
 
 @theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -16,4 +22,33 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+}
+
+@utility container-space {
+  @apply container mx-auto flex-auto px-3 lg:px-0;
+}
+
+h1 {
+  @apply text-3xl font-bold;
+}
+
+h2 {
+  @apply text-2xl font-bold;
+}
+
+h3 {
+  @apply text-xl font-bold;
+}
+
+h4 {
+  @apply font-bold;
+}
+
+a {
+  color: var(--color-secondary);
+}
+
+a:hover {
+  text-decoration: underline;
 }

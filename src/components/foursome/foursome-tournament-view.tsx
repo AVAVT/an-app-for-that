@@ -1,4 +1,4 @@
-import { Col, Input, Label, Table as ReactTable, Row } from "reactstrap";
+import { Input } from "vat-ui";
 import "./foursome.css";
 import type { Player, Round, Table } from "./types";
 
@@ -16,51 +16,42 @@ export default function FoursomeTournamentView({ playerData, matchData, onScoreC
     };
 
   const renderRound = (roundData: Round, index: number) => (
-    <Row key={index} className="mb-5 round_container">
-      <Col xs="12">
-        <h3>Round {index + 1}</h3>
-      </Col>
+    <div key={index} className="mb-5 round_container">
+      <h3>Round {index + 1}</h3>
       {roundData.tables.map((tableData, tableIndex) => renderTable(tableData, tableIndex, index))}
-    </Row>
+    </div>
   );
 
   const renderTable = (tableData: Table, tableIndex: number, roundIndex: number) => {
     const freeGame = tableData.players.some((player) => !playerData[player.id].name);
     return (
-      <Col sm="6" xl="3" key={tableIndex}>
+      <div key={tableIndex}>
         <div className="table_view" {...(freeGame && { style: { opacity: 0.5 } })}>
           <h4 className="table_view_header bg-primary text-white">
             Round {roundIndex + 1} - Table {tableIndex + 1}
           </h4>
-          <div className="table_view_body mt-2">
+          <div className="table_view_body my-2">
             {tableData.players.map(({ id, matchScore }, playerIndex) => {
               return (
-                <div key={id}>
-                  <Label
-                    style={{
-                      maxWidth: "100%",
-                      flex: "1 1 auto",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    <Input
-                      type="number"
-                      className="form-control d-inline-block mr-2"
-                      defaultValue={matchScore || 0}
-                      placeholder="Score"
-                      style={{ width: 70 }}
-                      onChange={composeInputHandler(roundIndex, tableIndex, playerIndex)}
-                    />
+                <div key={id} className="flex justify-start gap-2 items-baseline">
+                  <Input
+                    type="number"
+                    className="form-control d-inline-block mr-2"
+                    name={`player_${playerIndex}`}
+                    defaultValue={matchScore || 0}
+                    placeholder="Score"
+                    style={{ width: 70 }}
+                    onChange={composeInputHandler(roundIndex, tableIndex, playerIndex)}
+                  />
+                  <label htmlFor={`player_${playerIndex}`} className="text-ellipsis">
                     {playerData[id].name}
-                  </Label>
+                  </label>
                 </div>
               );
             })}
           </div>
         </div>
-      </Col>
+      </div>
     );
   };
 
@@ -69,13 +60,13 @@ export default function FoursomeTournamentView({ playerData, matchData, onScoreC
   );
 
   return (
-    <Row className="tournament_view_container">
-      <Col id="player_ranking" md="4" lg="3">
+    <div className="tournament_view_container mt-6">
+      <div id="player_ranking">
         <h3>Player Ranking</h3>
-        <ReactTable striped borderless responsive>
-          <thead>
+        <table className="w-full">
+          <thead className="text-left">
             <tr>
-              <th>#</th>
+              <th className="w-[3rem]">#</th>
               <th>Name</th>
               <th>Score</th>
               <th>Games</th>
@@ -93,11 +84,11 @@ export default function FoursomeTournamentView({ playerData, matchData, onScoreC
               ) : null,
             )}
           </tbody>
-        </ReactTable>
-      </Col>
-      <Col id="tournament_games" md="8" lg="9">
+        </table>
+      </div>
+      <div id="tournament_games" className="mt-6">
         {matchData.map(renderRound)}
-      </Col>
-    </Row>
+      </div>
+    </div>
   );
 }
