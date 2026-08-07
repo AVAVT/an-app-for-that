@@ -5,31 +5,49 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button, Input } from "vat-ui";
 
+const shuffleServer = (players: string[]) => {
+  return shuffle([[...shuffle([players[0], players[1]])], [...shuffle([players[2], players[3]])]]).flat();
+};
+
+// All 3 possible pairings of 4 players
+const matchTemplates = [
+  [0, 1, 2, 3],
+  [0, 2, 3, 1],
+  [0, 3, 2, 1],
+];
+
 export default function FoursomeSchedulerPage() {
-  const [playerNames, setPlayerNames] = useState<string[]>(["", "", "", ""]);
+  const [playerNames, setPlayerNames] = useState<string[]>(["", "", "", "", ""]);
   const [pairedPlayers, setPairedPlayers] = useState<string[][] | null>(null);
 
   const templatePingPong = () => {
-    setPlayerNames(["Vat", "Xeko", "Sakura", "Willy"]);
+    setPlayerNames(["Vat", "Xeko", "Sakura", "Willy", ""]);
+  };
+
+  const templatePingPong2 = () => {
+    setPlayerNames(["Vat", "Xeko", "Sakura", "Willy", "Sáng"]);
   };
 
   const pairPlayers = () => {
-    const shuffledPlayerNames = shuffle([...playerNames]);
+    if (!playerNames[4]) {
+      const players = shuffle([...playerNames.slice(0, 4)]);
 
-    setPairedPlayers([
-      shuffle([
-        [...shuffle([shuffledPlayerNames[0], shuffledPlayerNames[1]])],
-        [...shuffle([shuffledPlayerNames[2], shuffledPlayerNames[3]])],
-      ]).flat(),
-      shuffle([
-        [...shuffle([shuffledPlayerNames[0], shuffledPlayerNames[2]])],
-        [...shuffle([shuffledPlayerNames[3], shuffledPlayerNames[1]])],
-      ]).flat(),
-      shuffle([
-        [...shuffle([shuffledPlayerNames[0], shuffledPlayerNames[3]])],
-        [...shuffle([shuffledPlayerNames[2], shuffledPlayerNames[1]])],
-      ]).flat(),
-    ]);
+      setPairedPlayers(matchTemplates.map((template) => shuffleServer(template.map((i) => players[i]))));
+    } else {
+      const players = shuffle([...playerNames]);
+
+      // For each pairing template, rotate who sits out => 5 * 3 = 15 matches
+      setPairedPlayers(
+        shuffle(
+          matchTemplates.flatMap((template) =>
+            players.map((sitOut, sitOutIndex) => {
+              const playing = players.filter((_, i) => i !== sitOutIndex);
+              return [...shuffleServer(template.map((i) => playing[i])), sitOut];
+            }),
+          ),
+        ),
+      );
+    }
   };
 
   return (
@@ -49,11 +67,16 @@ export default function FoursomeSchedulerPage() {
           />
         ))}
         <div className="flex gap-2">
+          <Button color="primary" variant="outline" onClick={templatePingPong}>
+            Template Ping Pong 4
+          </Button>
+          <Button color="primary" variant="outline" onClick={templatePingPong2}>
+            Template Ping Pong 5
+          </Button>
+        </div>
+        <div className="flex gap-2">
           <Button color="primary" onClick={pairPlayers}>
             Pair Players
-          </Button>
-          <Button color="primary" variant="outline" onClick={templatePingPong}>
-            Template Ping Pong
           </Button>
         </div>
       </section>
@@ -72,6 +95,11 @@ export default function FoursomeSchedulerPage() {
           <div className="px-4">
             <span className="font-bold px-1">{match[2]}</span>+<span className="font-bold px-1">{match[3]}</span>
           </div>
+          {match[4] && (
+            <div className="px-4 text-gray-500">
+              sits out: <span className="font-bold">{match[4]}</span>
+            </div>
+          )}
         </div>
       ))}
       {pairedPlayers && (

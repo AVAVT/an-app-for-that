@@ -71,7 +71,7 @@ export default function QrcodePage() {
         <QRCodeCanvas value={qrCode} size={256} />
       </div>
 
-      <Modal show={showQRScanner} onClose={() => setShowQRScanner(false)} hasCloseButton clickOutsideToClose>
+      <Modal show={showQRScanner} onClose={() => setShowQRScanner(false)} clickOutsideToClose>
         <Scanner onError={handleError} onScan={handleScan} />
       </Modal>
     </article>
